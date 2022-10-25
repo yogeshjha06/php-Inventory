@@ -1,189 +1,103 @@
-<!DOCTYPE html>
-<html>
 <head>
-<style>
-body {
-  font-size: 18px;
+    <style>
+      table {
+                border: 1px solid;
+            }
+            #customers td, #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+            body {
+  margin: 0;
+  background-image: url('a.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
 }
 
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  background-color: #333;
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
-  top: 0;
-}
-
-li {
-  float: left;
+  width: 15%;
+  background-color: #111;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
 }
 
 li a {
   display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
+  color: #818181;
+  padding: 8px 16px;
   text-decoration: none;
 }
 
-li a:hover {
-  background-color: #111;
-}
-
-.active {
-  background-color: #4CAF50;
-}
-
-input[type=text], input[type=password], select {
-  width: 30;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-button {
+li a.active {
   background-color: #04AA6D;
   color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
 }
 
-button:hover {
-  opacity: 0.8;
+li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
 }
-
-.cancelbtn {
-  width: auto;
-  padding: 10px 18px;
-  background-color: #f44336;
-}
-
-
-img.avatar {
-  width: 40%;
-  border-radius: 50%;
-}
-
-.container {
-  padding: 16px;
-}
-
-span.psw {
-  float: right;
-  padding-top: 16px;
-}
-
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-  span.psw {
-     display: block;
-     float: none;
-  }
-  .cancelbtn {
-     width: 100%;
-  }
-}
-table.center {
-  margin-left: auto; 
-  margin-right: auto;
-}
-</style>
-</head>
-<body>
-
-<div class="header">
-</div>
+    </style>
 <ul>
-
-  <li><a class="active" href="http://localhost/inv/sale.php">Back</a></li>
-
+  <?php
+error_reporting(0);
+  echo"
+  <li><a href='http://localhost/inv1/item1.php'>Item</a></li>
+  <li><a href='http://localhost/inv1/client1.php'>Vendor</a></li>
+  <li><a href='http://localhost/inv1/pur1.php'>Purchase</a></li>
+  <li><a class='active' href='http://localhost/inv1/sale1.php'>Sale</a></li>
+  <li><a href='http://localhost/inv1/repo1.php'>Report</a></li>
+  ";
+  $con=mysqli_connect("localhost","root","","bd");//connection
+  ?>
 </ul>
-
-
-
-
-<form action="http://localhost/inv/sale1.php" method="post">
-
-
-  <div class="container">
-  <table class="center">
-   
-   <tr>
-
-   <td><label for="client">Client Id</label></td>
-   <td><input type="text" placeholder="Enter Client id" name="client" required ></td>
-   </tr>
-
-
-   <br>
-   <tr>
-
-   <td><label for="item">Item</label></td>
-   <td><input type="text" placeholder="Phone number" name="item" required ></td>
-
-   </tr>
-   <tr>
-
-   <td><label for="number">Quantity</label></td>
-   <td><input type="text" placeholder="Phone number" name="number" required ></td>
-
-   </tr>
-   <tr>
-
-   <td colspan="2"><button type="submit" name="submit">Sale Item</button></td>
-   </tr>
-
-   </table>
-  </div>
-
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<center>
+<div style="margin-left:25%;padding:1px 16px;height:1000px;">
+<h5>Sale's Master</h5>
+<form method="POST">
+    <?php echo"<button class='btn btn-outline-success' type='submit' name='ok'><a href='http://localhost/inv1/sale.php?n=3'>NEW SALE</a></button>";?>
 </form>
 
+<table id="customers">
+    <tr>
+        <th>SN</th>
+        <th>Reciving No</th>
+        <th>Reciving Date</th>
+        <th>Supplier Name</th>
+        <th>Amount</th>
+        <th colspan="3">Action</th>
+    </tr>
 
+    <?php
 
-
-
-<?php
-
-$server="localhost";
-$username="root";
-$password="";
-$dbname="brand";
-
-$con=mysqli_connect($server,$username,$password,$dbname);
-if(isset($_POST['submit']))
-{
-  if(!empty($_POST['client']))
-  {
-    $id=$_POST['client'];
-    $item=$_POST['item'];
-    $num=$_POST['number'];
-
-
-    $query="INSERT INTO `sale` (`client`, `item`, `amount`) VALUES ('$id', '$item', '$num');";
-    $run=mysqli_query($con,$query);
-      
-    if($run)
-        echo"item Sold!";
-    else
-        echo"error: item not sold!";
-
-  }
-  else
-    echo"INVALID ENTRY";
-}
-
-
-?>
-
-
-</body>
-</html>
+    $sql="SELECT * FROM s1 ORDER BY id DESC";//query
+    $result=$con->query($sql);
+    $no=1;$x=1;$y=2;
+    while($row=$result->fetch_assoc())
+    {
+      echo"
+      <tr>
+        <td>".$no."</td>
+        <td>".$row["rno"]."</td>
+        <td>".$row["rdate"]."</td>
+        <td>".$row["name"]."</td>
+        <td>".$row["amt"]."</td>
+        <td> <button class='btn btn-outline-danger'><a href='http://localhost/inv1/sale.php?id=$row[id]&n=$x'>Delete</a></button></td>       
+        <td> <button class='btn btn-outline-warning'><a href='http://localhost/inv1/sale.php?name=$row[name]&rdate=$row[rdate]&rno=$row[rno]&id=$row[id]&n=$y'>Edit</a></button></td>  
+        <td> <button class='btn btn-outline-light'><a href='http://localhost/bd/refresh.php?name=$row[name]&rdate=$row[rdate]&rno=$row[rno]&id=$row[id]&n=7'>View</a></button></td>  
+      </tr>
+      ";
+      $no++;
+    }
+    ?>
+</table>
+</div>
+</center>

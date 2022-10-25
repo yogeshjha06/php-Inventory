@@ -46,11 +46,11 @@ li a:hover:not(.active) {
     </style>
 <ul>
   <?php
-
+error_reporting(0);
   echo"
   <li><a href='http://localhost/inv1/item1.php'>Item</a></li>
-  <li><a class='active' href='http://localhost/inv1/client1.php'>Vendor</a></li>
-  <li><a href='http://localhost/inv1/pur1.php'>Purchase</a></li>
+  <li><a href='http://localhost/inv1/client1.php'>Vendor</a></li>
+  <li><a class='active' href='http://localhost/inv1/pur1.php'>Purchase</a></li>
   <li><a href='http://localhost/inv1/sale1.php'>Sale</a></li>
   <li><a href='http://localhost/inv1/repo1.php'>Report</a></li>
   ";
@@ -60,23 +60,24 @@ li a:hover:not(.active) {
 </head>
 <center>
 <div style="margin-left:25%;padding:1px 16px;height:1000px;">
-<h5>Supplier Master</h5>
+<h5>Purchase Master</h5>
 <form method="POST">
-    <?php echo"<button class='btn btn-outline-success' type='submit' name='ok'><a href='http://localhost/inv1/client.php?n=3'>ADD NEW CLIENT</a></button>";?>
+    <?php echo"<button class='btn btn-outline-success' type='submit' name='ok'><a href='http://localhost/inv1/pur.php?n=3'>NEW PURCHASE</a></button>";?>
 </form>
 
 <table id="customers">
     <tr>
         <th>SN</th>
+        <th>Reciving No</th>
+        <th>Reciving Date</th>
         <th>Supplier Name</th>
-        <th>Address</th>
-        <th>Mobile</th>
-        <th colspan="2">Action</th>
+        <th>Amount</th>
+        <th colspan="3">Action</th>
     </tr>
 
     <?php
     $con=mysqli_connect("localhost","root","","bd");//connection
-    $sql="SELECT * FROM client ORDER BY id DESC";//query
+    $sql="SELECT * FROM p1 ORDER BY id DESC";//query
     $result=$con->query($sql);
     $no=1;$x=1;$y=2;
     while($row=$result->fetch_assoc())
@@ -84,11 +85,13 @@ li a:hover:not(.active) {
       echo"
       <tr>
         <td>".$no."</td>
+        <td>".$row["rno"]."</td>
+        <td>".$row["rdate"]."</td>
         <td>".$row["name"]."</td>
-        <td>".$row["address"]."</td>
-        <td>".$row["number"]."</td>
-        <td> <button class='btn btn-outline-danger'><a href='http://localhost/inv1/client.php?id=$row[id]&n=$x'>Delete</a></button></td>       
-        <td> <button class='btn btn-outline-warning'><a href='http://localhost/inv1/client.php?name=$row[name]&add=$row[address]&ph=$row[number]&id=$row[id]&n=$y'>Edit</a></button></td>  
+        <td>".$row["amt"]."</td>
+        <td> <button class='btn btn-outline-danger'><a href='http://localhost/inv1/pur.php?id=$row[id]&n=$x'>Delete</a></button></td>       
+        <td> <button class='btn btn-outline-warning'><a href='http://localhost/inv1/pur.php?name=$row[name]&rdate=$row[rdate]&rno=$row[rno]&id=$row[id]&n=$y'>Edit</a></button></td>
+        <td> <button class='btn btn-outline-light'><a href='http://localhost/bd/refresh.php?name=$row[name]&rdate=$row[rdate]&rno=$row[rno]&id=$row[id]&n=6'>View</a></button></td>  
       </tr>
       ";
       $no++;
